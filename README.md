@@ -17,7 +17,7 @@ Note that some of these tokens change daily.
 
 
 # Scenario 1
-User Scenario 1 - Users selects a car park after viewing lot availability and rates of car parks near inputted location 
+Users selects a car park after viewing lot availability and rates of car parks near inputted location 
 To run the search:
 1. Import ura_rates.sql into phpmyadmin.
 2. Next, Run the insert_db_ura script in terminal by typing 'python insert_db_ura.py'. Then, type localhost:5070/ura_rates in your browser. 
