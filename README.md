@@ -15,16 +15,22 @@ Also, create your own API keys for Twilio SMS service and update .env with these
 
 Note that some of these tokens change daily.
 
+
 # Scenario 1
 To run the search:
 1. Import ura_rates.sql into phpmyadmin.
 2. Next, Run the insert_db_ura script in terminal by typing 'python insert_db_ura.py'. Then, type localhost:5070/ura_rates in your browser. 
 3. Due to the limitations of the URA API, certain places will not return nearby carparks, as URA carparks are limited to certain locations. To get results, use locations in the search bar such as - Pasir Panjang Food Centre, East Coast Lagoon Food Village, NUS Engineering V4, Haw Par Villa, Lower Kent Ridge NUS.
 
+![image](https://github.com/Ecksdee03/ParkHub-App/assets/77221369/73ad59a6-296d-430e-b096-c2880c743ddb)
+
 
 # Scenario 2
 1. Make sure scenario 1 is completed (car park is selected), or there will be redirection back to search car parks.
 2. Select respective radio button filter and click 'Search Amenities' button, selected filtered location results wil be shown in the form of cards, showing the place photo, place type, place name, and place address
+
+![image](https://github.com/Ecksdee03/ParkHub-App/assets/77221369/cdca8318-bc39-48ac-a907-a08b346b45aa)
+
    
 # Scenario 3
 1. Change 'from' phone number (line 41) in notification.py to your Twilio phone number
@@ -33,6 +39,9 @@ To run the search:
 4. Follow Scenario 1 to create a new parking session record (allow notifications for the session) that ends within the next 15 minutes to test the notification function
 5. To test notification: 1. Wait for the batch job to be executed again (every 5 minutes) or 2. Go to http://localhost:5100/monitor_session to manually trigger the check for ending parking sessions
 6. After receiving the SMS, follow the link to extend end time (due to limitations, please open the link on your computer browser instead of on your mobile)
+
+![image](https://github.com/Ecksdee03/ParkHub-App/assets/77221369/a838979e-32d0-4739-a421-4217f0668cac)
+
 
 # PORTS
 For dockerised microservices
@@ -44,8 +53,8 @@ For dockerised microservices
 6. ltawrapperlots.py  - 5001
 7. monitor_session.py - 5100
 8. searchAmenities.py - 5012
-9. nearby_amenities_wrapper.py - 5011
-10. rabbitmq - 5672 and 15672
+10. nearby_amenities_wrapper.py - 5011
+11. rabbitmq - 5672 and 15672
 
 Local Flask Apps (for front-end pages and insertion scripts, not microservices)
 1. insert_ura_db.py - 5070
