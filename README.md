@@ -19,7 +19,7 @@ Note that some of these tokens change daily.
 To run the search:
 1. Import ura_rates.sql into phpmyadmin.
 2. Next, Run the insert_db_ura script in terminal by typing 'python insert_db_ura.py'. Then, type localhost:5070/ura_rates in your browser. 
-3. Due to the limitations of the URA API, certain places will not return nearby carparks, as URA carparks are limited to certain locations. To get results, use locations in the search bar such as - Pasir Panjang Food Centre, East Coast Lagoon Food Village, nus engineering e4, tanjong pagar singapore, lower kent ridge nus.
+3. Due to the limitations of the URA API, certain places will not return nearby carparks, as URA carparks are limited to certain locations. To get results, use locations in the search bar such as - Pasir Panjang Food Centre, East Coast Lagoon Food Village, NUS Engineering V4, Haw Par Villa, Lower Kent Ridge NUS.
 
 
 # Scenario 2
