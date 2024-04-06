@@ -1,0 +1,239 @@
+version: "3.8"
+
+volumes:
+  rabbitmq_data:
+
+#docker networks
+
+networks:
+  mynetwork:
+    driver: bridge
+
+
+#building all services here
+services:
+
+
+  #################################
+  # Googlewrapper microservice
+  #################################
+  googlewrapper:
+    build:
+      context: ./
+      dockerfile: google.Dockerfile
+    image: junhaowong/googlewrapper:1.0
+    restart: always
+    
+    ports:
+     - "5000:5000"
+    networks:
+      - mynetwork
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  
+    # environment:
+        
+      
+  ###############################################
+  # ltawrapper microservice
+  ###############################################
+  ltawrapper:
+    build:
+      context: ./
+      dockerfile: lta.Dockerfile
+    image: junhaowong/ltawrapper:1.0
+    restart: always
+    # environment:
+    ports:
+     - "5001:5001"
+    networks:
+      - mynetwork
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  ###############################################
+  # urawrapper microservice
+  ###############################################  
+  urawrapper:
+    build:
+      context: ./
+      dockerfile: ura.Dockerfile
+    image: junhaowong/urawrapper:1.0
+    restart: always
+    environment:
+      dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/ura_rates
+    ports:
+     - "5003:5003"
+    networks:
+      - mynetwork
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  ###############################################
+  #search info complex microservice
+  ###############################################
+  searchinfo:
+    build:
+      context: ./
+      dockerfile: searchinfo.Dockerfile
+    image: junhaowong/searchinfo:1.0
+    restart: always
+    depends_on:
+      - urawrapper
+      - ltawrapper
+      - googlewrapper
+    ports:
+     - "5002:5002"
+    networks:
+      - mynetwork
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+
+#################################
+  # nearby_amenities_wrapper microservice
+  #################################
+  nearby_amenities_wrapper:
+    build:
+      context: ./
+      dockerfile: nearby_amenities_wrapper.Dockerfile
+    image: junhaowong/nearby_amenities_wrapper:1.0
+    restart: always
+  
+    ports:
+     - "5011:5011"
+    networks:
+      - mynetwork
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  
+
+###############################################
+  # user
+###############################################
+  user:
+    build:
+      context: ./
+      dockerfile: user.Dockerfile
+    image: junhaowong/user:1.0
+    restart: always
+    environment:
+      dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/user
+    
+    
+    ports:
+     - "5010:5010"
+    networks:
+      - mynetwork
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+###############################################
+  # session
+###############################################
+  session:
+    build:
+      context: ./
+      dockerfile: session.Dockerfile
+    image: junhaowong/session:1.0
+    restart: always
+    environment:
+      dbURL: mysql+mysqlconnector://is213@host.docker.internal:3306/session
+    ports:
+     - "5006:5006"
+    networks:
+      - mynetwork
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+
+
+#################################
+  # searchAmenities complex microservice
+  #################################
+  searchAmenities:
+    build:
+      context: ./
+      dockerfile: searchAmenities.Dockerfile
+    image: junhaowong/searchamenities:1.0
+    restart: always
+    depends_on:
+      - nearby_amenities_wrapper
+      - session
+    ports:
+     - "5012:5012"
+    networks:
+      - mynetwork
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+
+####################################
+  # RabbitMQ: The messaging broker   
+####################################
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: esd-rabbit
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes: 
+      - ./rabbitmq.config:/etc/rabbitmq/rabbitmq.config
+      - ./rabbitmq_definitions.json:/etc/rabbitmq/rabbitmq_definitions.json
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - mynetwork
+    extra_hosts:
+    - "host.docker.internal:host-gateway"
+
+#################################################
+  # notification: The notification microservice
+#################################################
+  notification:
+    build:
+      context: ./
+      dockerfile: notification.Dockerfile
+    image: junhaowong/notification:1.0
+    restart: always
+    depends_on:
+      - rabbitmq
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+      a_queue_name: notification
+      # TWILIO_ACCOUNT_SID: 'AC5cae419481fe61101479ed4e9e528ee4'
+      # TWILIO_AUTH_TOKEN: 'f162dccd67532b16801244f20242b057'
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
+      PYTHONUNBUFFERED: 1
+    networks:
+      - mynetwork
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+###############################################
+  # monitor session: The monitor session microservice
+###############################################
+  monitor_session:
+    build:
+      context: ./
+      dockerfile: monitor_session.Dockerfile
+    image: junhaowong/monitor_session:1.0
+    restart: always
+    depends_on:
+      - user
+      - session
+      - notification
+      - rabbitmq
+    environment:
+      rabbit_host: rabbitmq
+      rabbit_port: 5672
+      user_URL: http://user:5010/user
+      session_URL: http://session:5006/session/trigger 
+      PYTHONUNBUFFERED: 1
+    ports:
+      - "5100:5100"
+    networks:
+      - mynetwork
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
