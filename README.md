@@ -17,6 +17,7 @@ Note that some of these tokens change daily.
 
 
 # Scenario 1
+User Scenario 1 - Users selects a car park after viewing lot availability and rates of car parks near inputted location 
 To run the search:
 1. Import ura_rates.sql into phpmyadmin.
 2. Next, Run the insert_db_ura script in terminal by typing 'python insert_db_ura.py'. Then, type localhost:5070/ura_rates in your browser. 
@@ -26,6 +27,7 @@ To run the search:
 
 
 # Scenario 2
+User views nearby amenities around selected car park
 1. Make sure scenario 1 is completed (car park is selected), or there will be redirection back to search car parks.
 2. Select respective radio button filter and click 'Search Amenities' button, selected filtered location results wil be shown in the form of cards, showing the place photo, place type, place name, and place address
 
@@ -33,6 +35,7 @@ To run the search:
 
    
 # Scenario 3
+User notified near inputted end time and can choose to extend time
 1. Change 'from' phone number (line 41) in notification.py to your Twilio phone number
 2. After running docker compose up --build and python app.py, go to http://localhost:8000/views
 3. Login to ParkHub that has the receiving phone number registered with Twilio
