@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+<!-- {% block typewriter %}
+  {% include "../components/typewriter.html" %}
+
+{% endblock %} -->
+
+{% block css_reference %}
+
+  <!-- Typewriter CSS -->
+  <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+
+  <!--ionicons-->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <script >
+  console.log("running...")
+  console.log(sessionStorage.getItem('userID'));
+  </script>
+
+  <!-- Custom CSS -->
+  <link href="{{ url_for('static', filename='css/homepage.css') }}" />
+
+{% endblock %}
+
+
+{% block content %}
+  <!-- typewriter section --> 
+  <section id="homepage">
+    <div class="">
+        <!-- Typewriter Animation -->
+        <div class="h-48"></div>
+        <div class="h-50 text-center items-center typewriter">
+            <!-- Element to contain animated typing -->
+            <h1 class=" p-10 md:p-0 text-6xl sm:text-7xl font-semibold"><span class="autotype"></span></h1>
+
+            <!-- Setup and start animation! -->
+            <script>
+              let params = new URLSearchParams(window.location.search);
+
+              let username = params.get('username')
+              if (username !== null){
+                var concatenatedString = "Welcome, <span id='username'>{{ username }}</span> <br> to <br> <span style='color: green;'>ParkHub!!</span>";
+              }
+              else{
+                var concatenatedString = "Welcome to <span style='color: green;'>ParkHub!!</span>";
+
+              }
+              
+                var typed = new Typed('.autotype', {
+                    strings: [concatenatedString],
+                    typeSpeed: 50,
+                    backSpeed: 100,
+                    loop: true,
+                    showCursor: false // Optional: Hide the cursor
+                });
+            </script>
+        </div>
+
+        
+    </div>
+  </section>
+
+{% endblock %}
+
+{% block js_reference %}
+  <script 
+    type="text/javascript" 
+    src="{{ url_for('static', filename='homepage.js') }}">
+  </script>
+
+  <!-- Typewriter JS -->
+  <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+{% endblock %}
+  
+
+
+

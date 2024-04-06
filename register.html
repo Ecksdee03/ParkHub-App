@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+<!-- {% block typewriter %}
+  {% include "../components/typewriter.html" %}
+
+{% endblock %} -->
+
+{% block css_reference %}
+
+  <!-- Typewriter CSS -->
+  <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+
+  <!--ionicons-->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <!-- Custom CSS -->
+  <link href="{{ url_for('static', filename='css/homepage.css') }}" />
+
+{% endblock %}
+
+
+{% block content %}
+  <!-- typewriter section --> 
+  <section id="login" class="flex justify-center items-center h-screen">
+    <div class="text-center">
+        <!-- <h1 class="p-5 md:p-0 text-6xl sm:text-7xl font-semibold my-6"><span class="autotype"></span></h1> -->
+        <form class="space-y-4" id="loginform">
+            <h3 class="p-10 md:p-0 text-6xl sm:text-2xl font-semibold my-2">Sign Up</h3>
+            <input type="search" id="username" required class="block mx-auto w-full p-4 my-2 pl-10 text-s sm:text-sm text-gray-900 border-2 border-slate-700 rounded-full bg-gray-100 focus:ring-blue-500 focus:border-blue-500" placeholder="Username">
+            <input type="search" id="phoneNo" required class="block mx-auto w-full p-4 my-2 pl-10 text-s sm:text-sm text-gray-900 border-2 border-slate-700 rounded-full bg-gray-100 focus:ring-blue-500 focus:border-blue-500" placeholder="Phone Number">
+            <input type="search" id="email" required class="block mx-auto w-full p-4 my-2 pl-10 text-s sm:text-sm text-gray-900 border-2 border-slate-700 rounded-full bg-gray-100 focus:ring-blue-500 focus:border-blue-500" placeholder="Email">
+            <input type="password" id="password" required class="block mx-auto w-full p-4 pl-10 text-s sm:text-sm text-gray-900 border-2 border-slate-700 rounded-full bg-gray-100 focus:ring-blue-500 focus:border-blue-500" placeholder="Password">
+            
+            <div class="p-0">
+                <!-- Login Button -->
+                <button type="button" onclick="addUser()" id="registerButton" class="sm:visible text-white bg-gray-300 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-md px-20 py-2">Register</button>
+            </div>
+        </form>
+        <div class="m-3">
+            <div id="message" style="color:green;"></div>
+        </div>
+    </div>
+</section>
+  
+
+            <!-- Setup and start animation! -->
+            <script>
+              var concatenatedString = "Welcome to <br> <span style='color: green;'>ParkHub!!</span>";
+
+                var typed = new Typed('.autotype', {
+                    strings: [concatenatedString],
+                    // typeSpeed: 50,
+                    // backSpeed: 100,
+                    // loop: true,
+                    showCursor: false // Optional: Hide the cursor
+                });
+
+                function addUser() {
+                    const email = document.getElementById('email').value;
+                    const username = document.getElementById('username').value;
+                    const phoneNo = document.getElementById('phoneNo').value;
+                    const password = document.getElementById('password').value;
+                    console.log(email);
+                    const messageElement = document.getElementById('message');
+                    console.log(phoneNo[0]);
+                    console.log(phoneNo.length);
+
+                    if((phoneNo[0] != 8 && phoneNo[0] != 9) || (phoneNo.length != 8)){
+                        messageElement.style.color = 'red';
+                        messageElement.innerHTML = `Please enter a valid phone number.`;
+                    }else{
+                      axios.post('http://localhost:5010/user', {
+                          email: email,
+                          password: password,
+                          phoneNo: phoneNo,
+                          name: username
+                      })
+                      .then(response => {
+                          console.log('123456');
+                          messageElement.style.color ='green';
+                          messageElement.innerHTML = `Account successfully created.<br><a href='http://localhost:8000/views/login'><u>Login here</u></a>`;
+                          console.log(response.data); // Access response data
+                      })
+                      .catch(error => {
+                          // Axios bundles the response in error.response when the server responds with a status code outside the 2xx range
+                          if (error.response) {
+                              messageElement.style.color = 'red';
+                              messageElement.innerHTML = `Failed to create account`;
+                              console.error('Error:', error.message);
+                          } else {
+                              console.error('Error:', error.message);
+                          }
+                      });
+                    }
+
+
+                
+
+              }
+            </script>
+        </div>
+
+        <!-- <div class="w-auto">
+          <img id="boys" src=" {{ url_for('static', filename='images/carpark.jpg') }}" class="mb-50 relative hidden md:block w-2/4 mx-auto"/>
+        </div> -->
+        
+    </div>
+  </section>
+
+{% endblock %}
+
+{% block js_reference %}
+  <!--Axios-->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script>
+    type="text/javascript" 
+    // src="{{ url_for('static', filename='js/login.js') }}"
+  </script>
+
+  <!-- Typewriter JS -->
+  <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+{% endblock %}
+  
+
+
+

@@ -1,0 +1,78 @@
+<!-- to overwrite the whatever inside block and endblock in homepage.html -->
+{% extends "base.html" %}
+
+
+
+{% block css_reference %}
+    <!-- Connect to Google Maps API -->
+    <script 
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuWCAvENcOz861ihyW1EOF8WTJAzKfHfY&libraries=places">
+    </script>
+{% endblock %}
+
+
+{% block content %}
+<div class="mt-0">
+    <div class="text-center mt-10 px-20 sm:px-20 sm:pt-20">
+        <p id="header" class="mb-5 text-xl">Navigate. Park. Explore.</p>
+        <p class="mb-10 text-slate-500 text-sm"> 
+            <!--INFLUENCE TEXT-->
+            Join the ParkHub community and embark on a journey of hassle-free parking adventures.
+            <br>
+            Explore various amenities right at your fingertips. Discover convenience with Parkhub.
+        </p>
+        
+        <!-- Container for Search Form and Results -->
+        <div class="flex flex-col items-center"> <!-- Make the container a flex container and align items center -->
+            <!-- SEARCHBAR -->
+            <div class="px-1 lg:px-24 mb-5"> <!-- Add margin bottom to separate the search form and the results -->
+                <form class="w-full" id="infoform"> <!-- Set the width to full -->
+                    <label for="autocompleteInput" class="mb-2 text-sm font-medium text-gray-900 sr-only">Search</label>
+                    <div class="relative flex items-center"> <!-- Make the container a flex container and align items center -->
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"></path></svg>
+                        </div>
+                        
+                        <!-- Input field -->
+                        <input type="search" id="autocompleteInput" required class="block w-full p-4 pl-10 text-xs sm:text-sm text-gray-900 border-2 border-slate-700 rounded-full bg-gray-100 focus:ring-blue-500 focus:border-blue-500" placeholder="Locate or input carpark...">
+                    </div>
+
+                    <div>
+                        <br><p>Please enter your predicted start time and end time of your parking session</p>
+                        <div>
+                            <br><span>Start time:</span>
+                            <input type="datetime-local" id="starttime" placeholder="starttime" required>
+                        </div>
+                        <div>
+                            <br><span>End time:</span>
+                            <input type="datetime-local" id="endtime" placeholder="endtime" required>
+                        </div>
+                        <div>
+                            <!-- Search Button -->
+                            <br><button type="submit" id="searchButton" class="sm:visible text-white bg-gray-300 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-md px-20 py-2">Search</button>
+                        </div>
+                        <div>
+                            <p id="errormsg" style="color:red; padding: 5px;"></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Results Section -->
+            <div id="carparktopresults" class="flex flex-col items-center">
+                <!-- Your search results will appear here -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js_reference %}
+    <!--Axios-->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script src=" {{ url_for('static', filename='js/locateCP.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+{% endblock %}

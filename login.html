@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+<!-- {% block typewriter %}
+  {% include "../components/typewriter.html" %}
+
+{% endblock %} -->
+
+{% block css_reference %}
+
+  <!-- Typewriter CSS -->
+  <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+
+  <!--ionicons-->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <!-- Custom CSS -->
+  <link href="{{ url_for('static', filename='css/homepage.css') }}" />
+
+{% endblock %}
+
+
+{% block content %}
+  <!-- typewriter section --> 
+  <section id="login" class="flex justify-center items-center h-screen">
+    <div class="text-center">
+        <h1 class="p-5 md:p-0 text-6xl sm:text-7xl font-semibold my-6"><span class="autotype"></span></h1>
+        <form class="space-y-4" id="loginform">
+            <h3 class="p-10 md:p-0 text-6xl sm:text-2xl font-semibold my-2">Login</h3>
+            <input type="search" id="emaillogin" required class="block mx-auto w-3/4 p-4 my-2 pl-10 text-s sm:text-sm text-gray-900 border-2 border-slate-700 rounded-full bg-gray-100 focus:ring-blue-500 focus:border-blue-500" placeholder="Email">
+            <input type="password" id="passwordlogin" required class="block mx-auto w-3/4 p-4 pl-10 text-s sm:text-sm text-gray-900 border-2 border-slate-700 rounded-full bg-gray-100 focus:ring-blue-500 focus:border-blue-500" placeholder="Password">
+            <div class="m-0">
+                <div id="message" style="color:red;"></div>
+                <a href='http://localhost:8000/views/register'>Don't have an account? Sign up now</a>
+            </div>
+            <div class="p-0">
+                <!-- Login Button -->
+                <button type="submit" id="loginButton" class="sm:visible text-white bg-gray-300 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-md px-20 py-2">Login</button>
+              </div>
+                <!-- <button type="button" onclick="checkUser()" id="loginButton" class="sm:visible text-white bg-gray-300 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-full text-md px-20 py-2">Login</button> -->
+            </div>
+        </form>
+    </div>
+</section>
+  
+
+            <!-- Setup and start animation! -->
+            <script>
+              var concatenatedString = "Welcome to <br> <span style='color: green;'>ParkHub!!</span>";
+
+                var typed = new Typed('.autotype', {
+                    strings: [concatenatedString],
+                    // typeSpeed: 50,
+                    // backSpeed: 100,
+                    // loop: true,
+                    showCursor: false // Optional: Hide the cursor
+                });
+
+            </script>
+        </div>
+
+        <div class="w-auto">
+          <img id="boys" src=" {{ url_for('static', filename='images/carpark.jpg') }}" class="mb-50 relative hidden md:block w-2/4 mx-auto"/>
+        </div>
+        
+    </div>
+  </section>
+
+{% endblock %}
+
+{% block js_reference %}
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+  <script 
+    type="text/javascript" 
+    src="{{ url_for('static', filename='js/login.js') }}">
+  </script>
+
+  <!-- Typewriter JS -->
+  <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+{% endblock %}
+  
+
+
+

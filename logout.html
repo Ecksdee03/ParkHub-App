@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+<!-- {% block typewriter %}
+  {% include "../components/typewriter.html" %}
+
+{% endblock %} -->
+
+{% block css_reference %}
+
+  <!-- Typewriter CSS -->
+  <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+
+  <!--ionicons-->
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <!-- Custom CSS -->
+  <link href="{{ url_for('static', filename='css/homepage.css') }}" />
+
+{% endblock %}
+
+
+{% block content %}
+  <!-- typewriter section --> 
+  <section id="logout" class="flex justify-center items-center h-screen">
+    <div class="text-center">
+       
+            <h3 class="p-10 md:p-0 text-6xl sm:text-2xl font-semibold my-2">You have logged out</h3>
+            
+    </div>
+</section>
+  
+
+      
+
+{% endblock %}
+
+{% block js_reference %}
+  <!--Axios-->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script>
+    type="text/javascript" 
+    // src="{{ url_for('static', filename='js/login.js') }}"
+  </script>
+
+  <!-- Typewriter JS -->
+  <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+{% endblock %}
+  
+
+
+

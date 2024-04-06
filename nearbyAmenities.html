@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+
+{% block css_reference %}
+
+  <!-- Custom CSS -->
+  <link href="{{ url_for('static', filename='css/nearbyAmenities.css') }}" />
+
+    <!-- Connect to Google Maps API
+    <script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDuWCAvENcOz861ihyW1EOF8WTJAzKfHfY&libraries=places&callback=getNearbyAmenities">
+    </script> -->
+
+{% endblock %}
+
+
+
+{% block content %}
+
+    
+<div class="pt-20">
+    <div class="flex justify-center mt-8">
+        <div class="w-96 text-pretty max-w-sm overflow-hidden shadow-lg outline outline-1 bg-gray-100 rounded-lg p-4">
+            <div class="text-center px-6 py-4">
+                Carpark: <div id="carparkname" class="inline font-semibold"></div>
+            </div>
+
+            <div class="text-center text-sm px-6 py-1">
+                Please select filters below:
+            </div>
+            <div class="flex">
+                <div class="flex items-center ">
+                    <input id="carwash-checkbox" type="radio" name="amenity" value="car_wash" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="carwash-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Carwash</label>
+                </div>
+                <div class="flex items-center ml-4">
+                    <input id="convenience-store-checkbox" type="radio" name="amenity" value="convenience_store" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="restaurant-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Convenience Store</label>
+                </div>
+                <div class="flex items-center ml-4">
+                    <input id="gas-station-checkbox" type="radio" name="amenity" value="gas_station" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                    <label for="gas-station-checkbox" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Gas Station</label>
+                </div>
+            </div>
+
+            
+
+            <!--Submit button: Search Amenities-->
+            <div class="flex justify-center mt-2">
+                <button id="search_amenities_btn" class="text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-teal-300 dark:focus:ring-teal-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
+                    Search Amenities
+                </button>
+            </div>
+
+            <div id="no_matching_results" class="text-center pt-2"></div>
+        </div>
+    </div>
+</div>
+
+<div class="pt-10"></div>
+
+<div id="nearby_amenities_results" class="flex justify-center flex-wrap">
+</div>
+
+<div class="pt-20"></div>
+<div class="pt-20"></div>
+
+
+
+
+
+{% endblock %}
+
+{% block js_reference %}
+  <script 
+    type="text/javascript" 
+    src="{{ url_for('static', filename='js/nearbyAmenities.js') }}">
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+
+  <!--Axios-->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+{% endblock %}
+  
+
+
+
